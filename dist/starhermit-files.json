@@ -1,25 +1,97 @@
 {
+  "format": 1,
   "files": {
-    "LICENSE": {"sha256": "420223151f78e03dcd339b760dab7100186564bdf01c98896c4e84d0920a6d16", "size": 5446},
-    "assets/FONT-LICENSE.txt": {"sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9", "size": 3859},
-    "assets/body.ttf": {"sha256": "8f2c103bfa3fd5de71f1b92b18f21906b5a26871fb7e19a9a4c9af539c3cc7ab", "size": 380660},
-    "assets/clipping.png": {"sha256": "a550f7aaa75dd9652092ec23737e8bacab5cf462bf92499b189ef713f0cbeea7", "size": 1041614},
-    "assets/cry.wav": {"sha256": "970c9421e92b34dfc3e11df43d104818bb13c9aa4bcc52273c30443108acc67d", "size": 28708},
-    "assets/display.ttf": {"sha256": "847b33e13925f19ff87e4d934d6b3cf7cac35ce16424f6f670e40c2f377cf2df", "size": 356668},
-    "assets/hurt.wav": {"sha256": "03f7db0b86aadb8a28f518789b2d43dda077cf74dc6625eefcd790ac355b1e9b", "size": 10186},
-    "assets/jump.wav": {"sha256": "dc5eae6d9c2e4f7906efde43e8852ba1df4d5d349bf77a2672a819bf5e851d10", "size": 7100},
-    "assets/letter.wav": {"sha256": "b6bcfde5837ad70cb589f34b89708be803aaf5ad4e336be0a575e31a6890c7b6", "size": 22972},
-    "assets/mono.ttf": {"sha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88", "size": 343140},
-    "assets/mote.wav": {"sha256": "726ddcff9ac8703b7155f662700130a53133ac61c46a247ac3fd6580fa7e21f6", "size": 5336},
-    "assets/music.wav": {"sha256": "92df1b232b860e89561a9669a5484caafc8a996882e4d8c4d614efc348d844a7", "size": 889100},
-    "index.html": {"sha256": "a8fa15847d66661a046c6bac9e083d44411c57e435059f770da72fdc2b3d316c", "size": 1944},
-    "src/afterword.js": {"sha256": "80e356bdca14bdbdc76496828affcf63a6c80ca200cc1a1e1deade72cd2bea34", "size": 8619},
-    "src/art.ts": {"sha256": "f45f7f1800880bbc1ea22152883cafba2d05a24b5341acadbadf010c11b102dd", "size": 6534},
-    "src/details.js": {"sha256": "2483ef986c3fb51f40094f563317228356e71215589f311cba38556a31ef3cb6", "size": 4653},
-    "src/main.ts": {"sha256": "185d12b658acbfaff6e39538de60e0326b4cd1432ea9dd4c1449623bca484069", "size": 57189},
-    "src/margins.js": {"sha256": "2e51df5e41f528a824a60483ddf62df86157ef5dcbfea4ffba40c7863c4b6c43", "size": 5821},
-    "src/model.js": {"sha256": "1e7bc3f942d388e54243f5e83eaacd9e8e3fef3701beb8956bd5be107908684f", "size": 16360},
-    "starhermit.txt": {"sha256": "c53700b7f813e697128367cc6993d18744969143464a42554873a5910110aac4", "size": 990}
-  },
-  "format": 1
+    "LICENSE": {
+      "size": 5446,
+      "sha256": "420223151f78e03dcd339b760dab7100186564bdf01c98896c4e84d0920a6d16"
+    },
+    "assets/FONT-LICENSE.txt": {
+      "size": 3859,
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9"
+    },
+    "assets/body.ttf": {
+      "size": 380660,
+      "sha256": "8f2c103bfa3fd5de71f1b92b18f21906b5a26871fb7e19a9a4c9af539c3cc7ab"
+    },
+    "assets/clipping.png": {
+      "size": 1041614,
+      "sha256": "a550f7aaa75dd9652092ec23737e8bacab5cf462bf92499b189ef713f0cbeea7"
+    },
+    "assets/cry.wav": {
+      "size": 28708,
+      "sha256": "970c9421e92b34dfc3e11df43d104818bb13c9aa4bcc52273c30443108acc67d"
+    },
+    "assets/display.ttf": {
+      "size": 356668,
+      "sha256": "847b33e13925f19ff87e4d934d6b3cf7cac35ce16424f6f670e40c2f377cf2df"
+    },
+    "assets/hurt.wav": {
+      "size": 10186,
+      "sha256": "03f7db0b86aadb8a28f518789b2d43dda077cf74dc6625eefcd790ac355b1e9b"
+    },
+    "assets/jump.wav": {
+      "size": 7100,
+      "sha256": "dc5eae6d9c2e4f7906efde43e8852ba1df4d5d349bf77a2672a819bf5e851d10"
+    },
+    "assets/letter.wav": {
+      "size": 22972,
+      "sha256": "b6bcfde5837ad70cb589f34b89708be803aaf5ad4e336be0a575e31a6890c7b6"
+    },
+    "assets/mono.ttf": {
+      "size": 343140,
+      "sha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
+    },
+    "assets/mote.wav": {
+      "size": 5336,
+      "sha256": "726ddcff9ac8703b7155f662700130a53133ac61c46a247ac3fd6580fa7e21f6"
+    },
+    "assets/music.wav": {
+      "size": 889100,
+      "sha256": "92df1b232b860e89561a9669a5484caafc8a996882e4d8c4d614efc348d844a7"
+    },
+    "cover.jpg": {
+      "size": 1338081,
+      "sha256": "ccb778b2de785364f0bc2e80ba089d76f20934fab4c7c00af5fbd5721bf597ce"
+    },
+    "description.md": {
+      "size": 860,
+      "sha256": "0dea40fadd91b5af87c57aadd5c7f3061f0226613af5c54fe8192616c14ae899"
+    },
+    "favicon.svg": {
+      "size": 476,
+      "sha256": "d5683dd4ae26a9b349be3b0b3225c1fd18ba7ed988ed233f9e8784b9f342acfb"
+    },
+    "index.html": {
+      "size": 2147,
+      "sha256": "dd6f08d63fedd8b38a024f9c125146b5eb509fba4938f27d84d873918d9c8caa"
+    },
+    "src/afterword.js": {
+      "size": 8619,
+      "sha256": "80e356bdca14bdbdc76496828affcf63a6c80ca200cc1a1e1deade72cd2bea34"
+    },
+    "src/art.ts": {
+      "size": 6534,
+      "sha256": "f45f7f1800880bbc1ea22152883cafba2d05a24b5341acadbadf010c11b102dd"
+    },
+    "src/details.js": {
+      "size": 4653,
+      "sha256": "2483ef986c3fb51f40094f563317228356e71215589f311cba38556a31ef3cb6"
+    },
+    "src/main.ts": {
+      "size": 57189,
+      "sha256": "185d12b658acbfaff6e39538de60e0326b4cd1432ea9dd4c1449623bca484069"
+    },
+    "src/margins.js": {
+      "size": 5821,
+      "sha256": "2e51df5e41f528a824a60483ddf62df86157ef5dcbfea4ffba40c7863c4b6c43"
+    },
+    "src/model.js": {
+      "size": 16360,
+      "sha256": "1e7bc3f942d388e54243f5e83eaacd9e8e3fef3701beb8956bd5be107908684f"
+    },
+    "starhermit.txt": {
+      "size": 1074,
+      "sha256": "f67476cb503030185e2c19d79650d6e02e2a52c1fafecc2f25f738f6bf93b9b6"
+    }
+  }
 }

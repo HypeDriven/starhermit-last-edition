@@ -96,3 +96,9 @@ Art and sound: original procedural ink illustration and original synthesized mus
 The project's first-party code and original assets use the same license as [StarHermit Engine](https://github.com/HypeDriven/starhermit-engine/blob/main/LICENSE): **PolyForm Noncommercial License 1.0.0**, with Hype Driven Development Inc.'s additional permission for commercial games kept published, publicly playable and in running order on StarHermit.com. The complete upstream terms and required notice are reproduced unchanged in [LICENSE](LICENSE), and included in the standalone game package.
 
 Bundled DejaVu fonts retain their own license in `game/assets/FONT-LICENSE.txt`. The supplied newspaper clipping is reference material; the project license does not claim rights to that historical source. The engine runtime retains its own license and is loaded from the official release.
+
+## Production publication
+
+The Starhermit production title is **Last Edition**. The game manifest declares `cover=cover.jpg` and `description.file=description.md`; the generated loader uses `favicon.svg`. Cover-generation details are in [ARTWORK.md](ARTWORK.md).
+
+Rebuild the web package with `starhermit package --web game --out dist`, then run `python3 scripts/finish-web.py` to add page metadata and refresh the file integrity index. `publication.json` is an ignored local deployment receipt.

@@ -1,5 +1,5 @@
-name=The Last Edition
-description=A paper-and-ink adventure. A newspaper predicted the last baby. You are that baby. Steal back five letters and rewrite the future.
+name=Last Edition
+description=A paper-and-ink platform adventure. A newspaper predicted the last baby. You are that baby. Reclaim five letters, rewrite the headline and give the city a first morning.
 launch=index.html
 engine.api=1
 engine.entry=src/main.ts
@@ -24,3 +24,6 @@ engine.gamepad.cry=West
 engine.gamepad.interact=North
 engine.gamepad.pause=Start
 cache..=0
+
+cover=cover.jpg
+description.file=description.md
