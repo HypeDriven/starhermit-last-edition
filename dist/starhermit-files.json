@@ -129,17 +129,21 @@
       "size": 8619,
       "sha256": "80e356bdca14bdbdc76496828affcf63a6c80ca200cc1a1e1deade72cd2bea34"
     },
+    "src/animation.js": {
+      "size": 2625,
+      "sha256": "f38287083cfe4d43ff11f41f37bf40816f72e130cae7bf752c940affa85ea50c"
+    },
     "src/art.ts": {
-      "size": 8782,
-      "sha256": "1234bb6e987f0b5c277a3e6ba5bd25fd7becab43a8b3bedbb127da025c9af78f"
+      "size": 12101,
+      "sha256": "15dd2aac0124fcbbb415ceb473945efa7c0bbc8a6bfb3fb4a4da67f517a6036e"
     },
     "src/details.js": {
       "size": 4653,
       "sha256": "2483ef986c3fb51f40094f563317228356e71215589f311cba38556a31ef3cb6"
     },
     "src/main.ts": {
-      "size": 59268,
-      "sha256": "b49743324860abec8f59d8930b9caf23d240c629dd15e77546d8b72400497d61"
+      "size": 61628,
+      "sha256": "7e62098c0f20f7497ae2d8e28914e41c4b56ef1d2a772867200a0a4805abec2f"
     },
     "src/margins.js": {
       "size": 5821,

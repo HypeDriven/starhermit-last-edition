@@ -20,3 +20,5 @@ python3 scripts/generate-remaster.py
 ```
 
 The generation script skips existing source PNGs. Move an asset aside to regenerate it. Pillow is required for sprite and cover preparation. The generator uses an SSH client with progress heartbeats to avoid long idle HTTP connections; it does not change the generator service or its configuration. FLUX model license information is documented in the local service guide.
+
+The hero’s existing painting is now rigged at runtime into head, torso, arms, legs and scarf textures. Open, blinking and crying faces and mirrored joints share the same artwork. Motion is driven by gameplay state, with distance-based strides and smooth transitions into airborne, gliding and landing poses. No additional generated art or 3D model is needed for these 2D animations.

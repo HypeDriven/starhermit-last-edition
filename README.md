@@ -114,3 +114,7 @@ mkdir -p /tmp/last-edition-shots
 STARHERMIT_RENDER_CHECK_PNG=/tmp/last-edition-shots starhermit game --render-check --script tests/visual-desktop.play
 STARHERMIT_RENDER_CHECK_PNG=/tmp/last-edition-shots starhermit game --render-check --script tests/visual-portrait.play
 ```
+
+Characters use articulated animation. The painted hero is split into mirrored head, torso, arm, leg and scarf layers at load time. Footsteps follow distance travelled, with separate jump, fall, glide, cry, hurt and landing poses; pause freezes the hero’s pose. Citizens breathe, blink, look toward the player and gesture during dialogue. Censors articulate their patrol legs, moth wings rotate about their hinges, and sentries recoil when firing. `src/animation.js` holds the cosmetic state machine; it is independent of physics and saves.
+
+`tests/visual-animation.play` captures movement states in-engine. [Animation preview](screenshots/animation.gif).

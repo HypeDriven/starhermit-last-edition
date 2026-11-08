@@ -1,7 +1,13 @@
 import * as draw from 'starhermit:draw';
-import {OffscreenCanvas, FontFace, fonts, createImageBitmap} from 'starhermit:canvas';
+import {OffscreenCanvas, FontFace, fonts, createImageBitmap, Path2D} from 'starhermit:canvas';
 import type {ImageBitmap} from 'starhermit:canvas';
 import type {ColorLike} from 'starhermit:engine';
+import {idlePose} from './animation.js';
+
+export type CharacterPose=ReturnType<typeof idlePose>;
+type RigPart={image:OffscreenCanvas;x:number;y:number;w:number;h:number;px:number;py:number};
+type Rig=Record<string,RigPart>;
+const heroRigs:Rig[]=[];
 
 // The print shop's palette: ivory, midnight ink, oxidised copper and vermilion.
 export const C={paper:'#e9e1cd',cream:'#fff3d9',ink:'#172a32',faint:'#b2a78e',red:'#bd533d',muted:'#6c756e',sage:'#427e79',gold:'#e9b969',night:'#101f2b'};
@@ -17,7 +23,7 @@ export function text(t:string,x:number,y:number,size=20,color:ColorLike=C.ink,fo
 export function image(im:OffscreenCanvas|ImageBitmap,x:number,y:number,w:number,h:number,alpha=1){draw.image(im,x*S,y*S,w*S,h*S,{tint:[1,1,1,alpha]});}
 export let grain:OffscreenCanvas,city:OffscreenCanvas;
 let glow:OffscreenCanvas,edge:OffscreenCanvas,terrain:OffscreenCanvas;
-let hero:ImageBitmap,heroLeft:ImageBitmap;
+let hero:ImageBitmap;
 const paintings:ImageBitmap[]=[];
 let seed=811;
 function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
@@ -25,7 +31,8 @@ export async function loadArt(){
  const faces=[new FontFace('Display','assets/display.ttf'),new FontFace('Body','assets/body.ttf'),new FontFace('Mono','assets/mono.ttf')];
  for(const face of faces)fonts.add(face);await Promise.all(faces.map(f=>f.load()));
  await Promise.all(['nursery','factory','press','morning'].map(async(n,i)=>{paintings[i]=await createImageBitmap('assets/remaster/'+n+'.png');}));
- [hero,heroLeft]=await Promise.all(['hero-cutout','hero-left'].map(n=>createImageBitmap('assets/remaster/'+n+'.png')));
+ hero=await createImageBitmap('assets/remaster/hero-cutout.png');
+ buildHeroRig();
  grain=new OffscreenCanvas(640,400);const g=grain.getContext('2d');
  for(let i=0;i<4800;i++){g.fillStyle=i%2?'#101c2510':'#fff8e910';g.fillRect(rand()*640,rand()*400,rand()*1.2+.3,.6);}
  glow=new OffscreenCanvas(256,256);const l=glow.getContext('2d'),lg=l.createRadialGradient(128,128,0,128,128,128);lg.addColorStop(0,'#ffd89060');lg.addColorStop(.22,'#edb76028');lg.addColorStop(1,'#e5a44900');l.fillStyle=lg;l.fillRect(0,0,256,256);
@@ -66,24 +73,72 @@ export function ledge(x:number,y:number,w:number){
  rect(x+2,y+22,w-4,4,'#152d37');path('M0 0 L14 0 L0 14 Z',x+w-14,y+7,'#f9e8bd');
  for(let j=12;j<w-12;j+=45){ellipse(x+j,y+6,1.7,1.3,'#674f36');}
 }
-// The hand-painted cutout is animated with a breathing bob, stride and trailing paper scarf.
-export function baby(x:number,feet:number,k=1,time=0,run=0,glide=false,face=1,blink=false){
- const bounce=Math.sin(time*(run>.1?12:2.2))*(run> .1?2.3:1.1),y=feet-bounce*k;
+// Cut the painted figure into overlapping joints once. All animation is rendered
+// from these small textures; no full-frame canvas work happens while playing.
+function buildHeroRig(){
+ const armL='M128 357 L178 370 L187 400 L154 464 L130 487 L119 509 L76 522 L39 509 L43 468 L73 428 L81 402 L106 377 Z';
+ const armR='M311 386 L350 402 L374 437 L399 469 L422 481 L422 505 L400 507 L377 493 L357 475 L329 463 L309 430 Z';
+ const scarf='M138 330 L173 349 L111 422 L59 482 L45 534 L25 553 L0 513 L33 459 L88 392 Z';
+ const right:Rig={};
+ function part(name:string,x:number,y:number,w:number,h:number,px:number,py:number,mask?:string){
+  const canvas=new OffscreenCanvas(w,h),c=canvas.getContext('2d');
+  c.translate(-x,-y);if(mask)c.clip(new Path2D(mask));c.drawImage(hero,0,0);
+  right[name]={image:canvas,x,y,w,h,px,py};return c;
+ }
+ part('head',0,0,422,334,222,324);
+ part('legL',126,638,119,130,183,642);
+ part('legR',245,638,130,130,282,642);
+ part('armL',38,356,150,168,161,383,armL);
+ part('armR',308,385,114,124,332,413,armR);
+ part('scarf',0,328,176,227,145,349,scarf);
+ const body=part('body',0,315,422,335,218,607,'M125 315 L326 315 L329 370 L310 390 L310 421 L337 458 L352 623 Q250 670 111 625 L133 548 L108 528 L107 480 L146 456 L174 402 L143 367 L125 355 Z');
+ body.globalCompositeOperation='destination-out';body.fillStyle='#000';
+ for(const mask of [armL,armR,scarf])body.fill(new Path2D(mask));
+ for(const name of ['blink','cry']){
+  const base=right.head!,canvas=new OffscreenCanvas(base.w,base.h),c=canvas.getContext('2d');c.drawImage(base.image,0,0);
+  if(name==='blink'){
+   c.fillStyle='#edc28f';c.beginPath();c.ellipse(235,229,25,24,0,0,Math.PI*2);c.fill();c.beginPath();c.ellipse(319,222,18,20,0,0,Math.PI*2);c.fill();
+   c.strokeStyle='#563b28';c.lineWidth=3;c.beginPath();c.moveTo(216,229);c.quadraticCurveTo(236,241,255,228);c.moveTo(305,222);c.quadraticCurveTo(320,232,333,219);c.stroke();
+  }else{
+   c.fillStyle='#e8b27a';c.beginPath();c.ellipse(285,285,19,13,0,0,Math.PI*2);c.fill();c.fillStyle='#572f25';c.beginPath();c.ellipse(285,286,10,13,0,0,Math.PI*2);c.fill();c.fillStyle='#ca8065';c.beginPath();c.ellipse(285,293,6,3,0,0,Math.PI*2);c.fill();
+  }
+  right[name]={...base,image:canvas};
+ }
+ const left:Rig={};
+ for(const [name,p] of Object.entries(right)){
+  const canvas=new OffscreenCanvas(p.w,p.h),c=canvas.getContext('2d');c.translate(p.w,0);c.scale(-1,1);c.drawImage(p.image,0,0);
+  left[name]={...p,image:canvas,x:422-p.x-p.w,px:422-p.px};
+ }
+ heroRigs[0]=right;heroRigs[1]=left;
+}
+
+export function baby(x:number,feet:number,k=1,time=0,run=0,glide=false,face=1,blink=false,animated?:CharacterPose){
+ const pose=animated??idlePose(time);
+ if(!animated&&glide){pose.glide=1;pose.armL=1.15;pose.armR=-1.25;pose.legL=-.2;pose.legR=.3;}
+ const rig=heroRigs[face<0?1:0]!,unit=110/768*k;
+ const wings=animated?pose.glide:glide?1:0,rootX=face<0?204:218,rootY=607;
+ const bob=pose.bob*k,originX=x+(rootX-211)*unit*pose.stretchX,originY=feet+(rootY-748)*unit*pose.stretchY-bob;
+ const lean=pose.body*face,cs=Math.cos(lean),sn=Math.sin(lean);
  ellipse(x,feet+2*k,24*k,4*k,'#07172255');
- const tail=face>0?-1:1,wave=Math.sin(time*7)*5;
- if(run>.1||glide){
-  path(`M0 0 Q${tail*20} ${-3+wave} ${tail*36} ${3+wave} L${tail*32} ${8+wave} Q${tail*20} 4 0 5 Z`,x,y-61*k,'#9b4529',k);
-  path(`M0 0 Q${tail*20} ${-3+wave} ${tail*36} ${3+wave} L${tail*33} ${5+wave} Q${tail*20} 0 0 2 Z`,x,y-61*k,'#d1874a80',k);
+ function bone(name:string,angle=0,raise=0,parent=true){
+  const p=rig[name]!,sx=unit*pose.stretchX,sy=unit*pose.stretchY;
+  const dx=(p.px-rootX)*sx,dy=(p.py-rootY)*sy;
+  const px=originX+(parent?dx*cs-dy*sn:dx),py=originY+(parent?dx*sn+dy*cs:dy)-raise*k;
+  draw.image(p.image,(px+(p.x-p.px)*sx)*S,(py+(p.y-p.py)*sy)*S,p.w*sx*S,p.h*sy*S,{rotation:(parent?lean:0)+angle*face,origin:{x:px*S,y:py*S}});
  }
- if(glide){
-  light(x,y-62*k,72*k,.4);
-  path('M-16 -65 Q-50 -102 -82 -90 L-68 -62 L-36 -47 Z',x,y,C.cream,k,'#c09356',1);
-  path('M16 -65 Q50 -102 82 -90 L68 -62 L36 -47 Z',x,y,C.cream,k,'#c09356',1);
-  for(const sign of [-1,1]){line(x+sign*24*k,y-66*k,x+sign*75*k,y-85*k,'#a8875870',k);line(x+sign*30*k,y-60*k,x+sign*64*k,y-68*k,'#a8875850',.8*k);}
+ bone('scarf',pose.scarf);
+ if(wings>.01){
+  const flap=Math.sin(time*5)*4*wings;
+  light(x,feet-62*k,72*k,.3*wings);
+  path(`M-16 0 Q-50 ${-37+flap} -82 ${-25+flap} L-68 3 L-36 18 Z`,x,feet-65*k,C.cream,k*wings,'#c09356',1);
+  path(`M16 0 Q50 ${-37-flap} 82 ${-25-flap} L68 3 L36 18 Z`,x,feet-65*k,C.cream,k*wings,'#c09356',1);
+  for(const sign of [-1,1])line(x+sign*24*k*wings,feet-65*k-k*wings,x+sign*75*k*wings,feet-65*k+(-20+sign*flap)*k*wings,'#a8875870',k);
  }
- image(face<0?heroLeft:hero,x-30.25*k,y-107*k,60.5*k,110*k);
- if(blink)ellipse(x+face*9*k,y-70*k,4*k,.8*k,'#443e32');
- if(run>.3){for(let i=0;i<2;i++)ellipse(x-face*(18+i*10)*k,feet+1*k,(3-i)*k,1.5*k,'#ffe2b342');}
+ bone('armR',pose.armR);
+ bone('legR',pose.legR,pose.liftR,false);bone('legL',pose.legL,pose.liftL,false);
+ bone('body');bone('armL',pose.armL);
+ bone(pose.cry>.15?'cry':pose.blink||blink?'blink':'head',pose.head);
+ if(run>.3&&pose.action==='run')for(let i=0;i<2;i++)ellipse(x-face*(18+i*10)*k,feet+1*k,(3-i)*k,1.5*k,'#ffe2b342');
 }
 export function gear(x:number,y:number,r:number,rot:number,color=C.ink){
  const pts:[number,number][]=[];for(let i=0;i<48;i++){const a=i/48*Math.PI*2+rot,rr=r*(i%4<2?1:.83);pts.push([(x+Math.cos(a)*rr)*S,(y+Math.sin(a)*rr)*S]);}

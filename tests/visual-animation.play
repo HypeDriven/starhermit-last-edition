@@ -1,0 +1,24 @@
+# viewport 1280x800
+until 300 REWRITE THE FUTURE
+click REWRITE THE FUTURE
+frames 90
+save motion-idle
+hold KeyD
+frames 18
+save motion-run-a
+frames 7
+save motion-run-b
+key Space 9
+save motion-jump
+frames 28
+save motion-fall
+hold Space
+frames 8
+save motion-glide
+key KeyX 1
+frames 2
+save motion-cry
+release Space
+release KeyD
+frames 90
+save motion-land
