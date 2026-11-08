@@ -8,6 +8,9 @@ s = p.read_text()
 meta = '<meta name="description" content="' + html.escape(manifest['description'], quote=True) + '">'
 if '<meta name="description"' not in s:
     s = s.replace('</head>', meta + '\n</head>')
+# Match the game's midnight-and-brass palette while the engine starts.
+s = s.replace('background:#000;color:#eee', 'background:#10232b;color:#f7e8c8')
+s = s.replace('text-align:center;background:#000', 'text-align:center;background:radial-gradient(ellipse at 50% 40%,#29434b,#0b1b26)')
 p.write_text(s)
 index = {'format': 1, 'files': {str(p.relative_to(dist)): {'size': p.stat().st_size, 'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(dist.rglob('*')) if p.is_file() and p.name != 'starhermit-files.json'}}
 (dist / 'starhermit-files.json').write_text(json.dumps(index, indent=2) + '\n')

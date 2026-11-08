@@ -1,0 +1,12 @@
+# viewport 390x844
+until 300 REWRITE THE FUTURE
+frames 40
+save portrait-title
+click REWRITE THE FUTURE
+frames 100
+expect NURSERY
+save portrait-play
+key KeyP 1
+frames 10
+expect INTERMISSION
+save portrait-pause

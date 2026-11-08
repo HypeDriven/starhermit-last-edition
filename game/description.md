@@ -4,4 +4,4 @@ Leap across three districts, glide on oversized ears and use a resonant cry to i
 
 Spend ink on lasting marginalia upgrades, take on optional challenges and uncover alternate ending ranks. Continue into The First Morning to reopen a nursery, restore water, plant a garden and deliver the city's first letter.
 
-A single-player adventure with checkpoints, local saves, keyboard, touch and gamepad controls, original engraved illustrations and a music-box score.
+A single-player adventure with checkpoints, local saves, keyboard, touch and gamepad controls, painted paper-city scenery and a music-box score.

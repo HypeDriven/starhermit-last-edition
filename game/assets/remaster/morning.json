@@ -1,0 +1,9 @@
+{
+  "prompt": "Hand-painted cinematic storybook environment for a premium 2D side-scrolling adventure, intricate miniature city made of folded newspaper, carved wood and weathered brass. Tactile paper edges, painterly gouache textures, atmospheric perspective, exquisite warm light, sophisticated art direction. Wide panoramic side view, deep layered scenery, empty playable foreground, no people, no readable text, no UI, no border. The first morning in a restored miniature paper city. Honey-gold sunlight through soft clouds, flowering roof gardens, glass greenhouses, copper waterwheel, colorful laundry, cream-paper houses with teal roofs, paper birds and abundant greenery. Warm peach and pale mint atmosphere, deep teal shadows, abundant sunlit amber windows, idyllic hopeful spring morning. Buildings occupy lower two thirds, open upper sky.",
+  "width": 1536,
+  "height": 864,
+  "num_inference_steps": 28,
+  "guidance_scale": 4,
+  "seed": 1114,
+  "return_base64": false
+}

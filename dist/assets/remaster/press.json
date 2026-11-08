@@ -1,0 +1,9 @@
+{
+  "prompt": "Hand-painted cinematic storybook environment for a premium 2D side-scrolling adventure, intricate miniature city made of folded newspaper, carved wood and weathered brass. Tactile paper edges, painterly gouache textures, atmospheric perspective, exquisite warm light, sophisticated art direction. Wide panoramic side view, deep layered scenery, empty playable foreground, no people, no readable text, no UI, no border. The enormous final printing cathedral at night. Monumental baroque printing machine architecture, blackened brass columns, suspended copper mechanisms, colossal gears and letterpress drawers. Deep aubergine navy shadows, wine-red ink and warm orange light. A glowing circular window near the right. Moody magical cathedral of paper and machinery. Buildings occupy lower two thirds, open upper sky.",
+  "width": 1536,
+  "height": 864,
+  "num_inference_steps": 28,
+  "guidance_scale": 4,
+  "seed": 1013,
+  "return_base64": false
+}

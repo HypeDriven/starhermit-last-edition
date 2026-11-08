@@ -49,37 +49,97 @@
       "size": 889100,
       "sha256": "92df1b232b860e89561a9669a5484caafc8a996882e4d8c4d614efc348d844a7"
     },
+    "assets/remaster/factory.json": {
+      "size": 966,
+      "sha256": "d12aa55810cdc2187b749c48b2e12aae2a7a2da2c3410b5a92ef4090a3de7a75"
+    },
+    "assets/remaster/factory.png": {
+      "size": 1921228,
+      "sha256": "55258dcc9cc2b4e4eba7baaa9d33a716f12f6ef179931eb639e59dcc9b2f340b"
+    },
+    "assets/remaster/hero-cutout.png": {
+      "size": 432321,
+      "sha256": "853d28c8951511093331d1389d603ffe46b820d65464ba81167ce9ae16e5f3e5"
+    },
+    "assets/remaster/hero-left.png": {
+      "size": 431670,
+      "sha256": "428d1115722909c4ef75a14f68e612e1858dbfeb89d6054cfe8cb2b4627a57e7"
+    },
+    "assets/remaster/hero-receipt.json": {
+      "size": 245,
+      "sha256": "b2b839ba177c56cbd41b1b2ac0878d66bbc4425fa1dd93aa4d2ca12de9c113ca"
+    },
+    "assets/remaster/hero.json": {
+      "size": 901,
+      "sha256": "33bebb61b246ba885044d5131446d2f8e9f3885aedb5e40299a5c20a82d6eb66"
+    },
+    "assets/remaster/hero.png": {
+      "size": 580560,
+      "sha256": "251f4f7409c40e13482f0e6145b07725116236183dae385ba050b1692bb90977"
+    },
+    "assets/remaster/morning-receipt.json": {
+      "size": 245,
+      "sha256": "9e00fc1e5fe343fd94b5c9b539109ec33b5792f204dc4f9b3252f713dc288a95"
+    },
+    "assets/remaster/morning.json": {
+      "size": 981,
+      "sha256": "9879c28b5f30a1df1590845177b5babafa3552585804cd70c89702b114052199"
+    },
+    "assets/remaster/morning.png": {
+      "size": 2256792,
+      "sha256": "a73ba299bde6378d2530b6ac1875a176b6a2bbe553510ea9ae0573998c032bf5"
+    },
+    "assets/remaster/nursery.json": {
+      "size": 998,
+      "sha256": "0a5fd4846fc9c0be731be7ef0d62e143a17b48fcdf14a5c9444cf64b80f2926d"
+    },
+    "assets/remaster/nursery.png": {
+      "size": 2405810,
+      "sha256": "3e6f86370e4c9e6dde156e9c8188a625b7fabb72821192e2d567770cb8d666f1"
+    },
+    "assets/remaster/press-receipt.json": {
+      "size": 245,
+      "sha256": "23a2dcb4969faf3aab0b8a35db78b8ceffa571c63d24ee8fc5b487af1616fb53"
+    },
+    "assets/remaster/press.json": {
+      "size": 963,
+      "sha256": "b3ba3b64f76080e5d4bb94509aaea9929e79f0f43f67d823cfd06d37e2a945a7"
+    },
+    "assets/remaster/press.png": {
+      "size": 2221800,
+      "sha256": "913fad4c935e33b0a4860030d1f607d1d074aa5ce442e0b5cd6a7fc454f445e6"
+    },
     "cover.jpg": {
-      "size": 1338081,
-      "sha256": "ccb778b2de785364f0bc2e80ba089d76f20934fab4c7c00af5fbd5721bf597ce"
+      "size": 385983,
+      "sha256": "8514289ed76b5672419c47a25499645929a846fa4090f17c392c7e204c40b93b"
     },
     "description.md": {
-      "size": 860,
-      "sha256": "0dea40fadd91b5af87c57aadd5c7f3061f0226613af5c54fe8192616c14ae899"
+      "size": 855,
+      "sha256": "c190c7cb7b8ce86975491b554461e484398e804c05eb84ac3db3869246455968"
     },
     "favicon.svg": {
-      "size": 476,
-      "sha256": "d5683dd4ae26a9b349be3b0b3225c1fd18ba7ed988ed233f9e8784b9f342acfb"
+      "size": 398,
+      "sha256": "f91681c7c4538d18c87ee7c7c9469a5ab4c1ba3fecb40655ad556e39c48f56d3"
     },
     "index.html": {
-      "size": 2147,
-      "sha256": "dd6f08d63fedd8b38a024f9c125146b5eb509fba4938f27d84d873918d9c8caa"
+      "size": 2200,
+      "sha256": "6a2ac7ec3e01c656023e58f53bea4e4dadf1fe5f0521629e6bff9fe12fa95b48"
     },
     "src/afterword.js": {
       "size": 8619,
       "sha256": "80e356bdca14bdbdc76496828affcf63a6c80ca200cc1a1e1deade72cd2bea34"
     },
     "src/art.ts": {
-      "size": 6534,
-      "sha256": "f45f7f1800880bbc1ea22152883cafba2d05a24b5341acadbadf010c11b102dd"
+      "size": 8782,
+      "sha256": "1234bb6e987f0b5c277a3e6ba5bd25fd7becab43a8b3bedbb127da025c9af78f"
     },
     "src/details.js": {
       "size": 4653,
       "sha256": "2483ef986c3fb51f40094f563317228356e71215589f311cba38556a31ef3cb6"
     },
     "src/main.ts": {
-      "size": 57189,
-      "sha256": "185d12b658acbfaff6e39538de60e0326b4cd1432ea9dd4c1449623bca484069"
+      "size": 59268,
+      "sha256": "b49743324860abec8f59d8930b9caf23d240c629dd15e77546d8b72400497d61"
     },
     "src/margins.js": {
       "size": 5821,

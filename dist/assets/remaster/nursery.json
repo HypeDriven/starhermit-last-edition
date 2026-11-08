@@ -1,0 +1,9 @@
+{
+  "prompt": "Hand-painted cinematic storybook environment for a premium 2D side-scrolling adventure, intricate miniature city made of folded newspaper, carved wood and weathered brass. Tactile paper edges, painterly gouache textures, atmospheric perspective, exquisite warm light, sophisticated art direction. Wide panoramic side view, deep layered scenery, empty playable foreground, no people, no readable text, no UI, no border. Blue hour in an abandoned European nursery district. Tall crooked slate-blue townhouses with mansard roofs, dormer windows, copper spires and hanging paper bunting. A magnificent distant clocktower on the right. Amber windows glow against deep midnight teal and dusty indigo. A huge soft ivory moon in a hazy peach sky. Paper cranes in the sky. Quiet, melancholic, magical, hopeful. Buildings occupy lower two thirds, open upper sky.",
+  "width": 1536,
+  "height": 864,
+  "num_inference_steps": 28,
+  "guidance_scale": 4,
+  "seed": 811,
+  "return_base64": false
+}

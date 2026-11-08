@@ -1,91 +1,94 @@
 import * as draw from 'starhermit:draw';
-import {OffscreenCanvas, FontFace, fonts} from 'starhermit:canvas';
+import {OffscreenCanvas, FontFace, fonts, createImageBitmap} from 'starhermit:canvas';
+import type {ImageBitmap} from 'starhermit:canvas';
 import type {ColorLike} from 'starhermit:engine';
 
-export const C={paper:'#e7dfc9',cream:'#f4ecd7',ink:'#292c28',faint:'#b4af9c',red:'#ad4637',muted:'#777769',sage:'#6a7c64'};
-export let S=1, W=1280, H=800;
-export function viewport(w:number,h:number){S=w/h<1? w/720:Math.min(w/1280,h/800);W=w/S;H=h/S;}
-export function rect(x:number,y:number,w:number,h:number,color:ColorLike){draw.rect(x*S,y*S,w*S,h*S,color);}
-export function stroke(x:number,y:number,w:number,h:number,col:ColorLike=C.ink,lw=1){draw.strokeRect(x*S,y*S,w*S,h*S,col,lw*S);}
+// The print shop's palette: ivory, midnight ink, oxidised copper and vermilion.
+export const C={paper:'#e9e1cd',cream:'#fff3d9',ink:'#172a32',faint:'#b2a78e',red:'#bd533d',muted:'#6c756e',sage:'#427e79',gold:'#e9b969',night:'#101f2b'};
+export let S=1,W=1280,H=800;
+export function viewport(w:number,h:number){S=w/h<1?w/720:Math.min(w/1280,h/800);W=w/S;H=h/S;}
+export function rect(x:number,y:number,w:number,h:number,c:ColorLike){draw.rect(x*S,y*S,w*S,h*S,c);}
+export function stroke(x:number,y:number,w:number,h:number,c:ColorLike=C.ink,lw=1){draw.strokeRect(x*S,y*S,w*S,h*S,c,lw*S);}
 export function line(x:number,y:number,x2:number,y2:number,c:ColorLike=C.ink,lw=1){draw.line(x*S,y*S,x2*S,y2*S,c,lw*S);}
 export function ellipse(x:number,y:number,rx:number,ry:number,c:ColorLike,rotation=0){draw.ellipse(x*S,y*S,rx*S,ry*S,c,{rotation});}
-export function ring(x:number,y:number,r:number,col:ColorLike,lw=1){draw.strokeCircle(x*S,y*S,r*S,col,lw*S);}
-export function path(d:string,x:number,y:number,fill:ColorLike,scale=1,strokeCol?:ColorLike,lw=1){
-  const o:draw.PathOptions={fill,scale:scale*S};if(strokeCol){o.stroke=strokeCol;o.lineWidth=lw;}
-  draw.path(d,x*S,y*S,o);
-}
+export function ring(x:number,y:number,r:number,c:ColorLike,lw=1){draw.strokeCircle(x*S,y*S,r*S,c,lw*S);}
+export function path(d:string,x:number,y:number,fill:ColorLike,scale=1,strokeCol?:ColorLike,lw=1){const o:draw.PathOptions={fill,scale:scale*S};if(strokeCol){o.stroke=strokeCol;o.lineWidth=lw;}draw.path(d,x*S,y*S,o);}
 export function text(t:string,x:number,y:number,size=20,color:ColorLike=C.ink,font='Body',align:'start'|'center'|'end'='start',spacing=0){draw.text(t,x*S,y*S,{size:size*S,color,font,align,letterSpacing:spacing*S});}
-export function image(im:OffscreenCanvas,x:number,y:number,w:number,h:number,alpha=1){draw.image(im,x*S,y*S,w*S,h*S,{tint:[1,1,1,alpha]});}
-export let grain:OffscreenCanvas, city:OffscreenCanvas;
+export function image(im:OffscreenCanvas|ImageBitmap,x:number,y:number,w:number,h:number,alpha=1){draw.image(im,x*S,y*S,w*S,h*S,{tint:[1,1,1,alpha]});}
+export let grain:OffscreenCanvas,city:OffscreenCanvas;
+let glow:OffscreenCanvas,edge:OffscreenCanvas,terrain:OffscreenCanvas;
+let hero:ImageBitmap,heroLeft:ImageBitmap;
+const paintings:ImageBitmap[]=[];
 let seed=811;
 function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
 export async function loadArt(){
-  const faces=[new FontFace('Display','assets/display.ttf'),new FontFace('Body','assets/body.ttf'),new FontFace('Mono','assets/mono.ttf')];
-  for(const face of faces)fonts.add(face);
-  await Promise.all(faces.map(f=>f.load()));
-  grain=new OffscreenCanvas(640,400);const g=grain.getContext('2d');
-  for(let i=0;i<3200;i++){g.fillStyle=i%2?'#4a40300a':'#fff8e91a';g.fillRect(rand()*640,rand()*400,rand()*1.6+.25,rand()*1.2+.25);}
-  for(let i=0;i<24;i++){const x=rand()*640;g.strokeStyle='#4a403003';g.beginPath();g.moveTo(x,0);g.lineTo(x+rand()*9-4.5,400);g.stroke();}
-  city=new OffscreenCanvas(1800,500);const c=city.getContext('2d');
-  // An original engraved skyline, baked once and reused by the GPU.
-  for(let layer=0;layer<3;layer++){
-    let x=-30;c.fillStyle=['#b5b19e','#909583','#616c5f'][layer]!;
-    while(x<1800){
-      const w=42+rand()*78,h=50+rand()*190+layer*20,base=410+layer*35;
-      c.fillRect(x,base-h,w,h+50);
-      c.beginPath();c.moveTo(x-6,base-h);c.lineTo(x+w*.5,base-h-22-rand()*35);c.lineTo(x+w+6,base-h);c.closePath();c.fill();
-      if(rand()>.55){c.fillRect(x+w*.7,base-h-58,7,45);c.fillRect(x+w*.7-3,base-h-59,13,4);}
-      c.fillStyle=['#d2ccb6','#c6c0a8','#a5ac91'][layer]!;
-      for(let wy=base-h+20;wy<base-5;wy+=22)for(let wx=x+10;wx<x+w-8;wx+=19){if(rand()>.16){c.fillRect(wx,wy,5,10);c.fillRect(wx+2,wy,1,10);}}
-      c.strokeStyle='#e7dfc927';c.lineWidth=.65;
-      for(let k=0;k<9;k++){const xx=x+rand()*w;c.beginPath();c.moveTo(xx,base-h+8);c.lineTo(xx,base);c.stroke();}
-      c.fillStyle=['#b5b19e','#909583','#616c5f'][layer]!;x+=w+6+rand()*17;
-    }
-  }
-  // Observatory at the heart of the city.
-  c.fillStyle='#4d5a50';c.fillRect(1040,110,98,370);c.beginPath();c.arc(1089,110,58,Math.PI,0);c.fill();
-  c.fillRect(1086,11,6,47);c.fillRect(1080,26,18,3);c.strokeStyle='#c5c5a7';c.lineWidth=2;
-  c.beginPath();c.arc(1089,164,27,0,Math.PI*2);c.stroke();c.beginPath();c.moveTo(1089,144);c.lineTo(1089,166);c.lineTo(1100,171);c.stroke();
-  for(let y=221;y<470;y+=38)for(let x=1053;x<1130;x+=23){c.fillStyle='#b4b89b';c.fillRect(x,y,8,19);}
+ const faces=[new FontFace('Display','assets/display.ttf'),new FontFace('Body','assets/body.ttf'),new FontFace('Mono','assets/mono.ttf')];
+ for(const face of faces)fonts.add(face);await Promise.all(faces.map(f=>f.load()));
+ await Promise.all(['nursery','factory','press','morning'].map(async(n,i)=>{paintings[i]=await createImageBitmap('assets/remaster/'+n+'.png');}));
+ [hero,heroLeft]=await Promise.all(['hero-cutout','hero-left'].map(n=>createImageBitmap('assets/remaster/'+n+'.png')));
+ grain=new OffscreenCanvas(640,400);const g=grain.getContext('2d');
+ for(let i=0;i<4800;i++){g.fillStyle=i%2?'#101c2510':'#fff8e910';g.fillRect(rand()*640,rand()*400,rand()*1.2+.3,.6);}
+ glow=new OffscreenCanvas(256,256);const l=glow.getContext('2d'),lg=l.createRadialGradient(128,128,0,128,128,128);lg.addColorStop(0,'#ffd89060');lg.addColorStop(.22,'#edb76028');lg.addColorStop(1,'#e5a44900');l.fillStyle=lg;l.fillRect(0,0,256,256);
+ edge=new OffscreenCanvas(640,400);const e=edge.getContext('2d'),eg=e.createRadialGradient(320,185,90,320,185,365);eg.addColorStop(0,'#07172200');eg.addColorStop(1,'#07172290');e.fillStyle=eg;e.fillRect(0,0,640,400);
+ terrain=new OffscreenCanvas(1024,150);const t=terrain.getContext('2d'),tg=t.createLinearGradient(0,0,0,150);tg.addColorStop(0,'#2b3d43');tg.addColorStop(.3,'#192e38');tg.addColorStop(1,'#0c1b26');t.fillStyle=tg;t.fillRect(0,0,1024,150);
+ for(let row=0;row<5;row++)for(let x=-80;x<1100;x+=88){const xx=x+(row%2)*44,y=row*29;t.strokeStyle='#b8c0a010';t.strokeRect(xx+2,y+3,84,25);t.fillStyle='#030d171c';t.fillRect(xx+3,y+26,83,2);}
+ for(let i=0;i<750;i++){t.fillStyle=i%2?'#f8d6a014':'#06132130';t.fillRect(rand()*1024,rand()*150,1+rand()*4,1);}
+ // A separate foreground silhouette gives the paintings a second parallax plane.
+ city=new OffscreenCanvas(1800,340);const c=city.getContext('2d');
+ for(let x=-30;x<1800;){const w=64+rand()*100,h=40+rand()*145,base=340;c.fillStyle='#16303bdd';c.fillRect(x,base-h,w,h);c.beginPath();c.moveTo(x-8,base-h);c.lineTo(x+w*.5,base-h-30);c.lineTo(x+w+8,base-h);c.closePath();c.fill();
+ c.fillStyle='#0d212c';c.fillRect(x+w-12,base-h,12,h);c.fillStyle='#b5b29b35';c.fillRect(x-5,base-h, w+10,2);
+ for(let yy=base-h+20;yy<base-12;yy+=26)for(let xx=x+13;xx<x+w-16;xx+=25){if(rand()>.5){c.fillStyle='#e7b97765';c.fillRect(xx,yy,8,13);c.fillStyle='#102b36';c.fillRect(xx+3,yy,2,13);}}
+ x+=w+24+rand()*35;}
 }
-
-// Same vulnerable silhouette as the clipping; an expressive, original ink character.
+export function light(x:number,y:number,r=80,alpha=1){image(glow,x-r,y-r,r*2,r*2,alpha);}
+export function backdrop(chapter:number,camera:number,clock:number,base:number,menu=false){
+ rect(0,0,W,H,C.night);
+ const pw=Math.max(W+520,H*1.9),ph=pw*864/1536,offset=menu?-160:-70-camera*.075;
+ image(paintings[chapter]!,offset,base-ph+95,pw,ph);
+ const near=-((camera*.28)%1800)-100;
+ image(city,near,base-245,1800,340,chapter===3?.35:.65);image(city,near+1800,base-245,1800,340,chapter===3?.35:.65);
+ // Dust catches the light. Paper fragments move more slowly than the player.
+ for(let i=0;i<32;i++){const x=((i*173.43+clock*(3+i%4)-camera*.14)%(W+160)+W+160)%(W+160)-80,y=100+(i*71.31)%(Math.max(200,base-100))+Math.sin(clock*.4+i)*14;ellipse(x,y,i%5===0?2:1,i%5===0?1:1,i%3?'#ffe4b742':'#fff8e96a');}
+ for(let i=0;i<5;i++){const x=((i*307+clock*9-camera*.18)%(W+180)+W+180)%(W+180)-90,y=base-240-(i%3)*84;path('M-10 0 L0 -4 L11 -11 L5 2 L-1 5 Z',x,y,'#fff1ce58',.7);}
+ image(edge,0,0,W,H,.8);
+}
+export function street(camera:number,base:number,clock:number){
+ const offset=-(camera%1024);for(let x=offset;x<W;x+=1024)image(terrain,x,base+8,1024,Math.max(150,H-base));
+ rect(0,base+1,W,9,'#152832');rect(0,base+1,W,3,'#d7c49c');line(0,base+5,W,base+5,'#b7935b',1);
+ // Paving stones and a softly lit kerb define the walkable surface.
+ for(let x=-(camera%74);x<W;x+=74){line(x,base+1,x-5,base+9,'#0c1c2a',1);line(x+5,base+12,x+66,base+12,'#f5d39b16');}
+ for(let i=0;i<5;i++){const x=i*510+200-camera;if(x< -120||x>W+120)continue;line(x,base,x,base-150,'#102632',4);path('M0 -148 Q0 -175 29 -175 L37 -164',x,base,'#00000000',1,'#172b34',3);light(x+36,base-157,75,.9);rect(x+29,base-170,14,22,'#ffe2a2');stroke(x+27,base-172,18,26,'#263c40',2);path('M24 -173 L36 -183 L48 -173 Z',x,base,'#172b34');line(x+36,base-170,x+36,base-148,'#9e7f4a',1);}
+ void clock;
+}
+export function ledge(x:number,y:number,w:number){
+ rect(x+4,y+8,w,24,'#08172165');rect(x,y,w,23,'#3b5053');rect(x,y,w,5,'#f3d9a8');line(x,y,x+w,y,'#fff3cc',1.5);rect(x,y+5,w,3,'#c28e50');
+ rect(x+4,y+10,w-8,10,'#c0b59a');for(let j=0;j<3;j++)line(x+7,y+12+j*3,x+w-9,y+12+j*3,'#766d5965',.65);
+ rect(x+2,y+22,w-4,4,'#152d37');path('M0 0 L14 0 L0 14 Z',x+w-14,y+7,'#f9e8bd');
+ for(let j=12;j<w-12;j+=45){ellipse(x+j,y+6,1.7,1.3,'#674f36');}
+}
+// The hand-painted cutout is animated with a breathing bob, stride and trailing paper scarf.
 export function baby(x:number,feet:number,k=1,time=0,run=0,glide=false,face=1,blink=false){
-  const bounce=Math.abs(Math.sin(time*10))*run*2;
-  const y=feet-bounce*k;
-  ellipse(x,feet+2*k,27*k,5*k,'#292c2828');
-  // Long ink arms, duck feet, high waisted shorts.
-  path('M-14 -43 Q-25 -29 -21 -11 L-17 -8 Q-14 -10 -17 -14 L-15 -31 Z',x,y,C.ink,k);
-  path('M14 -43 Q25 -29 21 -11 L17 -8 Q14 -10 17 -14 L15 -31 Z',x,y,C.ink,k);
-  path('M-13 -37 Q0 -30 13 -37 L11 -19 L4 -18 L4 -4 L13 -3 Q16 1 11 2 L-1 2 L-3 -21 L-7 -4 L-2 -2 L-2 2 L-17 2 Q-20 -1 -14 -4 L-14 -18 Z',x,y,C.ink,k);
-  path('M-14 -45 Q0 -52 14 -45 L13 -30 Q0 -24 -13 -30 Z',x,y,C.cream,k,C.ink,1.4);
-  path('M-11 -33 Q0 -29 11 -33',x,y,C.ink,k);
-  // Ears spread into gliding wings.
-  if(glide){
-    path('M-20 -67 Q-38 -86 -61 -75 L-50 -60 L-35 -54 L-20 -56 Z',x,y,C.cream,k,C.ink,1.9);
-    path('M20 -67 Q38 -86 61 -75 L50 -60 L35 -54 L20 -56 Z',x,y,C.cream,k,C.ink,1.9);
-    path('M-25 -63 L-53 -72 L-39 -59 Z M25 -63 L53 -72 L39 -59 Z',x,y,C.ink,k);
-  }else{
-    path('M-21 -67 Q-34 -66 -42 -79 Q-46 -67 -36 -53 L-21 -52 Z',x,y,C.cream,k,C.ink,1.9);
-    path('M21 -67 Q34 -66 42 -79 Q46 -67 36 -53 L21 -52 Z',x,y,C.cream,k,C.ink,1.9);
-    path('M-25 -60 L-37 -71 L-31 -57 Z M25 -60 L37 -71 L31 -57 Z',x,y,C.ink,k);
-  }
-  path('M0 -105 C-31 -105 -34 -84 -27 -65 Q-22 -47 0 -42 Q22 -47 27 -65 C34 -84 31 -105 0 -105 Z',x,y,C.cream,k,C.ink,2);
-  path('M14 -102 Q35 -90 26 -65 L12 -46 Q30 -49 32 -72 Q35 -95 14 -102 Z',x,y,'#77776945',k);
-  const eyeY=y-69*k;
-  for(const sign of [-1,1]){
-    ellipse(x+sign*11*k,eyeY,8.5*k,(blink?1.7:11)*k,C.ink);
-    if(!blink){ellipse(x+sign*11*k,eyeY-.5*k,6.7*k,8.8*k,C.cream);ellipse(x+(sign*11+face*1.7)*k,eyeY+.6*k,3.7*k,5.4*k,C.ink);ellipse(x+(sign*11+face*1.7-1)*k,eyeY-1.3*k,1.2*k,1.5*k,C.cream);}
-  }
-  ellipse(x-2*k,y-54*k,1*k,1.4*k,C.ink);ellipse(x+2*k,y-54*k,1*k,1.4*k,C.ink);
-  path('M-5 -49 Q0 -46 5 -49 Q0 -41 -5 -49Z',x,y,C.ink,k);
-  // Fine woodcut marks.
-  for(let i=0;i<5;i++)line(x+(-20+i*2)*k,y+(-90-i*1.1)*k,x+(-23+i*2)*k,y+(-85-i*1.1)*k,'#77776955',.6*k);
+ const bounce=Math.sin(time*(run>.1?12:2.2))*(run> .1?2.3:1.1),y=feet-bounce*k;
+ ellipse(x,feet+2*k,24*k,4*k,'#07172255');
+ const tail=face>0?-1:1,wave=Math.sin(time*7)*5;
+ if(run>.1||glide){
+  path(`M0 0 Q${tail*20} ${-3+wave} ${tail*36} ${3+wave} L${tail*32} ${8+wave} Q${tail*20} 4 0 5 Z`,x,y-61*k,'#9b4529',k);
+  path(`M0 0 Q${tail*20} ${-3+wave} ${tail*36} ${3+wave} L${tail*33} ${5+wave} Q${tail*20} 0 0 2 Z`,x,y-61*k,'#d1874a80',k);
+ }
+ if(glide){
+  light(x,y-62*k,72*k,.4);
+  path('M-16 -65 Q-50 -102 -82 -90 L-68 -62 L-36 -47 Z',x,y,C.cream,k,'#c09356',1);
+  path('M16 -65 Q50 -102 82 -90 L68 -62 L36 -47 Z',x,y,C.cream,k,'#c09356',1);
+  for(const sign of [-1,1]){line(x+sign*24*k,y-66*k,x+sign*75*k,y-85*k,'#a8875870',k);line(x+sign*30*k,y-60*k,x+sign*64*k,y-68*k,'#a8875850',.8*k);}
+ }
+ image(face<0?heroLeft:hero,x-30.25*k,y-107*k,60.5*k,110*k);
+ if(blink)ellipse(x+face*9*k,y-70*k,4*k,.8*k,'#443e32');
+ if(run>.3){for(let i=0;i<2;i++)ellipse(x-face*(18+i*10)*k,feet+1*k,(3-i)*k,1.5*k,'#ffe2b342');}
 }
-
 export function gear(x:number,y:number,r:number,rot:number,color=C.ink){
-  const pts:[number,number][]=[];
-  for(let i=0;i<40;i++){const a=i/40*Math.PI*2+rot,rr=r*(i%4<2?1:.78);pts.push([(x+Math.cos(a)*rr)*S,(y+Math.sin(a)*rr)*S]);}
-  draw.polygon(pts,color);ellipse(x,y,r*.45,r*.45,C.paper);ellipse(x,y,r*.2,r*.2,color);
+ const pts:[number,number][]=[];for(let i=0;i<48;i++){const a=i/48*Math.PI*2+rot,rr=r*(i%4<2?1:.83);pts.push([(x+Math.cos(a)*rr)*S,(y+Math.sin(a)*rr)*S]);}
+ draw.polygon(pts,color);ring(x,y,r*.73,'#d9b677',Math.max(1,r*.08));ellipse(x,y,r*.46,r*.46,'#172d37');
+ for(let i=0;i<6;i++){const a=i/6*Math.PI*2+rot;line(x+Math.cos(a)*r*.18,y+Math.sin(a)*r*.18,x+Math.cos(a)*r*.65,y+Math.sin(a)*r*.65,color,Math.max(2,r*.13));}
+ ellipse(x,y,r*.21,r*.21,'#d6ac6a');ellipse(x-r*.05,y-r*.05,r*.07,r*.07,'#fae3aa');
 }
-export function sprout(x:number,y:number,k:number){line(x,y,x-2*k,y-34*k,C.sage,2*k);path('M0 -18 Q-25 -38 -21 -19 Q-14 -9 0 -18 M-1 -27 Q22 -46 22 -28 Q15 -16 -1 -27',x,y,C.sage,k);}
+export function sprout(x:number,y:number,k:number){line(x,y,x-2*k,y-34*k,C.sage,2*k);path('M0 -18 Q-25 -38 -21 -19 Q-14 -9 0 -18 M-1 -27 Q22 -46 22 -28 Q15 -16 -1 -27',x,y,C.sage,k);line(x-17*k,y-22*k,x-3*k,y-18*k,'#a7b88e',.6*k);}

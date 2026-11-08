@@ -1,0 +1,20 @@
+# viewport 1280x800
+until 300 REWRITE THE FUTURE
+frames 40
+save title
+click REWRITE THE FUTURE
+frames 100
+expect The Empty Nursery
+save nursery
+key KeyD 70
+key Space 30
+frames 20
+save platforming
+key KeyP 1
+frames 10
+expect INTERMISSION
+save pause
+click FIELD JOURNAL
+frames 10
+expect Stories in the margins
+save journal

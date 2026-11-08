@@ -75,7 +75,7 @@ The archive includes the original reference image and makes clear that its socia
 
 ## Source and builds
 
-`game/` is the editable engine package. `dist/` is the generated browser/native-upload package. `src/main.ts` handles engine lifecycle, input, UI and audio. `src/art.ts` draws original vector characters and bakes a reusable engraved city layer. `src/details.js` holds the optional routes and story content. `src/margins.js` supplies marginalia, chimes and enemy behavior. `src/afterword.js` supplies the restoration, letter and courier rules. `src/model.js` contains the shared deterministic rules, exercised by the three suites in `tests/`.
+`game/` is the editable engine package. `dist/` is the generated browser/native-upload package. `src/main.ts` handles engine lifecycle, input, UI and audio. `src/art.ts` loads the FLUX paintings and hero, animates the paper character, and bakes the parallax silhouettes, lighting, grain and street textures. `src/main.ts` draws the brass machinery, citizens, paper props and responsive interface. `src/details.js` holds the optional routes and story content. `src/margins.js` supplies marginalia, chimes and enemy behavior. `src/afterword.js` supplies the restoration, letter and courier rules. `src/model.js` contains the shared deterministic rules, exercised by the three suites in `tests/`.
 
 Download the official Linux, Windows or macOS engine from [the StarHermit engine guide](https://wiki.starhermit.com/docs/tutorials/starhermit-engine.html). With `starhermit` on PATH:
 
@@ -89,7 +89,7 @@ node --test tests/*.test.mjs
 
 The web runtime requires HTTPS or localhost. Serve `dist/` through HTTPS for browsers. Repackage after any source change; the engine verifies all package files against `starhermit-files.json`. Upload **the contents of `dist/`** unchanged to StarHermit for catalog publication. No account or platform identity is required for single-player play.
 
-Art and sound: original procedural ink illustration and original synthesized music-box waltz/effects, with the user-supplied reference clipping in the archive. DejaVu fonts are bundled under their included license in `game/assets/FONT-LICENSE.txt`. The engine is loaded from the official release, pinned by integrity hashes, and is not redistributed in this repository.
+Art: original FLUX-generated storybook environments and paper-cloaked hero, with code-drawn brass machinery, citizens, lighting, paper props and interface. Sound: original synthesized music-box waltz/effects. The user-supplied reference clipping remains in the archive. DejaVu fonts are bundled under their included license in `game/assets/FONT-LICENSE.txt`. The engine is loaded from the official release, pinned by integrity hashes, and is not redistributed in this repository.
 
 ## License
 
@@ -99,6 +99,18 @@ Bundled DejaVu fonts retain their own license in `game/assets/FONT-LICENSE.txt`.
 
 ## Production publication
 
-The Starhermit production title is **Last Edition**. The game manifest declares `cover=cover.jpg` and `description.file=description.md`; the generated loader uses `favicon.svg`. Cover-generation details are in [ARTWORK.md](ARTWORK.md).
+The Starhermit production title is **Last Edition**. The game manifest declares `cover=cover.jpg` and `description.file=description.md`; the generated loader uses `favicon.svg`. Cover and remaster asset details are in [ARTWORK.md](ARTWORK.md).
 
 Rebuild the web package with `starhermit package --web game --out dist`, then run `python3 scripts/finish-web.py` to add page metadata and refresh the file integrity index. `publication.json` is an ignored local deployment receipt.
+
+## Visual remaster
+
+The four chapters have distinct painted environments: moonlit newspaper rooftops, a teal-and-brass factory, a dark printing cathedral, and a sunlit restored city. Layered silhouettes, moving paper, window and collectible glows, textured streets, animated scarf and glide wings, and paper-and-brass platforms complete the new visual style. A compact HUD keeps the route visible; menus use warm letterpress pages. Gameplay rules and save formats are unchanged.
+
+FLUX recipes and regeneration instructions are in [ARTWORK.md](ARTWORK.md). The desktop and portrait play scripts exercise the rendered title, platforming, pause and journal screens:
+
+```sh
+mkdir -p /tmp/last-edition-shots
+STARHERMIT_RENDER_CHECK_PNG=/tmp/last-edition-shots starhermit game --render-check --script tests/visual-desktop.play
+STARHERMIT_RENDER_CHECK_PNG=/tmp/last-edition-shots starhermit game --render-check --script tests/visual-portrait.play
+```

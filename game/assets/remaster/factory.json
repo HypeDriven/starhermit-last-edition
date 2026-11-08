@@ -1,0 +1,9 @@
+{
+  "prompt": "Hand-painted cinematic storybook environment for a premium 2D side-scrolling adventure, intricate miniature city made of folded newspaper, carved wood and weathered brass. Tactile paper edges, painterly gouache textures, atmospheric perspective, exquisite warm light, sophisticated art direction. Wide panoramic side view, deep layered scenery, empty playable foreground, no people, no readable text, no UI, no border. The forecast factory district at dusk. A sprawling Victorian printworks of blue-green copper, huge brass wheels, pipes, suspended walkways, tall brick chimneys and ornate windows shining gold. Rolls of newsprint through the architecture. Smoky turquoise atmosphere, deep petrol-blue shadows, burnished amber highlights, dramatic shafts of warm light. Buildings occupy lower two thirds, open upper sky.",
+  "width": 1536,
+  "height": 864,
+  "num_inference_steps": 28,
+  "guidance_scale": 4,
+  "seed": 912,
+  "return_base64": false
+}

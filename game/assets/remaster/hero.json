@@ -1,0 +1,9 @@
+{
+  "prompt": "Single full body character asset centered on a perfectly flat solid pale pink background, no shadow and no scenery. A lovable little child explorer for a cinematic paper storybook adventure game. Large rounded head, expressive dark eyes, tiny nose, oversized pointed ears like a fennec fox, a small dark tuft of hair. Wearing an ivory folded-paper hood and tunic, a flowing long rust-red scarf, tiny leather satchel and dark brown boots. Standing confident, facing three-quarter right, arms slightly apart, entire character fully visible with generous margins. Beautiful detailed hand-painted gouache, soft warm shading, tactile folded-paper costume, polished charming character design, clear readable silhouette, no text, no border, no extra characters.",
+  "width": 768,
+  "height": 1024,
+  "num_inference_steps": 28,
+  "guidance_scale": 4,
+  "seed": 1215,
+  "return_base64": false
+}
