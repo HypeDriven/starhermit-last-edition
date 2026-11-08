@@ -1,0 +1,13 @@
+{
+  "name": "the-last-edition",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HypeDriven/starhermit-last-edition.git"
+  }
+}
