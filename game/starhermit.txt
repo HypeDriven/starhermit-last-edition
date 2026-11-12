@@ -27,3 +27,7 @@ cache..=0
 
 cover=cover.jpg
 description.file=description.md
+
+# Game language (saved per player); Automatic follows the account/device.
+control.localization=F2 | Language
+engine.group.localization=Interface
