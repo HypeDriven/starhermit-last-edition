@@ -34,7 +34,7 @@ let seed=811;
 function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
 export async function loadArt(){
  const faces=[new FontFace('Display','assets/display.ttf'),new FontFace('Body','assets/body.ttf'),new FontFace('Mono','assets/mono.ttf')];
- for(const face of faces)fonts.add(face);await Promise.all(faces.map(f=>f.load()));
+ await Promise.all(faces.map(f=>f.load()));for(const face of faces)fonts.add(face);
  await Promise.all(['nursery','factory','press','morning'].map(async(n,i)=>{paintings[i]=await createImageBitmap('assets/remaster/'+n+'.png');}));
  hero=await createImageBitmap('assets/remaster/hero-cutout.png');
  buildHeroRig();

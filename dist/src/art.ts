@@ -1,3 +1,8 @@
+import { localizedDrawOptions as __l10nDrawOptions } from "./l10n/font.js";
+// localization-runtime:attached
+import { localizedFont as __l10nFont } from "./l10n/font.js";
+// display-localization:attached
+import { localizedText as __displayText } from "./l10n/text.js";
 import * as draw from 'starhermit:draw';
 import {OffscreenCanvas, FontFace, fonts, createImageBitmap, Path2D} from 'starhermit:canvas';
 import type {ImageBitmap} from 'starhermit:canvas';
@@ -19,7 +24,7 @@ export function line(x:number,y:number,x2:number,y2:number,c:ColorLike=C.ink,lw=
 export function ellipse(x:number,y:number,rx:number,ry:number,c:ColorLike,rotation=0){draw.ellipse(x*S,y*S,rx*S,ry*S,c,{rotation});}
 export function ring(x:number,y:number,r:number,c:ColorLike,lw=1){draw.strokeCircle(x*S,y*S,r*S,c,lw*S);}
 export function path(d:string,x:number,y:number,fill:ColorLike,scale=1,strokeCol?:ColorLike,lw=1){const o:draw.PathOptions={fill,scale:scale*S};if(strokeCol){o.stroke=strokeCol;o.lineWidth=lw;}draw.path(d,x*S,y*S,o);}
-export function text(t:string,x:number,y:number,size=20,color:ColorLike=C.ink,font='Body',align:'start'|'center'|'end'='start',spacing=0){draw.text(t,x*S,y*S,{size:size*S,color,font,align,letterSpacing:spacing*S});}
+export function text(t:string,x:number,y:number,size=20,color:ColorLike=C.ink,font='Body',align:'start'|'center'|'end'='start',spacing=0){draw.text(__displayText(t),x*S,y*S,__l10nDrawOptions({size:size*S,color,font: __l10nFont(font),align,letterSpacing:spacing*S}));}
 export function image(im:OffscreenCanvas|ImageBitmap,x:number,y:number,w:number,h:number,alpha=1){draw.image(im,x*S,y*S,w*S,h*S,{tint:[1,1,1,alpha]});}
 export let grain:OffscreenCanvas,city:OffscreenCanvas;
 let glow:OffscreenCanvas,edge:OffscreenCanvas,terrain:OffscreenCanvas;
@@ -29,7 +34,7 @@ let seed=811;
 function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
 export async function loadArt(){
  const faces=[new FontFace('Display','assets/display.ttf'),new FontFace('Body','assets/body.ttf'),new FontFace('Mono','assets/mono.ttf')];
- for(const face of faces)fonts.add(face);await Promise.all(faces.map(f=>f.load()));
+ await Promise.all(faces.map(f=>f.load()));for(const face of faces)fonts.add(face);
  await Promise.all(['nursery','factory','press','morning'].map(async(n,i)=>{paintings[i]=await createImageBitmap('assets/remaster/'+n+'.png');}));
  hero=await createImageBitmap('assets/remaster/hero-cutout.png');
  buildHeroRig();

@@ -43,10 +43,10 @@
     "cover.jpg": {"sha256": "8514289ed76b5672419c47a25499645929a846fa4090f17c392c7e204c40b93b", "size": 385983},
     "description.md": {"sha256": "c190c7cb7b8ce86975491b554461e484398e804c05eb84ac3db3869246455968", "size": 855},
     "favicon.svg": {"sha256": "f91681c7c4538d18c87ee7c7c9469a5ab4c1ba3fecb40655ad556e39c48f56d3", "size": 398},
-    "index.html": {"sha256": "210c22e5ad7d2b7b0813eb0a63d5a4aad5a4e8b54ae6c667f7800e8a4be58458", "size": 1941},
+    "index.html": {"sha256": "0c4a25d968b6ddf033434c6cacfe8069d14591b9b4df3272e0936b68344b1a94", "size": 1941},
     "src/afterword.js": {"sha256": "80e356bdca14bdbdc76496828affcf63a6c80ca200cc1a1e1deade72cd2bea34", "size": 8619},
     "src/animation.js": {"sha256": "f38287083cfe4d43ff11f41f37bf40816f72e130cae7bf752c940affa85ea50c", "size": 2625},
-    "src/art.ts": {"sha256": "f566f77cd0de7e1d26216aa494302935f0f6642b27aabab4a4e84407c52e6a85", "size": 12422},
+    "src/art.ts": {"sha256": "130e5878fab013329d6785a002428593806806a221f07c9b202514856a8ee436", "size": 12422},
     "src/details.js": {"sha256": "2483ef986c3fb51f40094f563317228356e71215589f311cba38556a31ef3cb6", "size": 4653},
     "src/l10n/font.ts": {"sha256": "7f1628951943bd20cc3afa3ead0ad5ef2b5d9415683a7bd74953a40cbf5fd142", "size": 6298},
     "src/l10n/menu.ts": {"sha256": "171e533d03753e0a0194559a1e96a4b91d8fe2d68d690825e4565f6d39d469ca", "size": 6317},
@@ -56,7 +56,7 @@
     "src/main.ts": {"sha256": "53694866ff5dca191b81303432bc37061b4aa74ab83917691884f94f5baed50f", "size": 62708},
     "src/margins.js": {"sha256": "2e51df5e41f528a824a60483ddf62df86157ef5dcbfea4ffba40c7863c4b6c43", "size": 5821},
     "src/model.js": {"sha256": "1e7bc3f942d388e54243f5e83eaacd9e8e3fef3701beb8956bd5be107908684f", "size": 16360},
-    "starhermit.txt": {"sha256": "00641ba22496aaa9ef2d351b1a44421570bb6b4711d848188e5b1a507085bef9", "size": 1220}
+    "starhermit.txt": {"sha256": "9d06b3ca9bc50681244b4d4e4f5c7dfee35296562f10938793a391f1b92857a2", "size": 1220}
   },
   "excluded": ["tsconfig.json"],
   "format": 1

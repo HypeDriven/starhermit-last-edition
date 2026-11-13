@@ -1,6 +1,6 @@
 # The Last Edition
 
-A complete short, single-player paper-and-ink platform adventure built with **StarHermit engine 1.38.0**. Inspired by the supplied newspaper clipping about the supposed last baby of 2012.
+A complete short, single-player paper-and-ink platform adventure built with **StarHermit engine 1.39.0**. Inspired by the supplied newspaper clipping about the supposed last baby of 2012.
 
 The player is the child in the drawing. Cross three districts of a city shaped by a sensational headline, reclaim **F I R S T**, and correct the machine that keeps printing **LAST**. His large ears become a glider; his cry interrupts the machines that claim his future is settled. A fourth chapter, **The First Morning**, makes that new future playable: reopen a nursery, restore water, plant a shared garden, and deliver the city's first letter.
 

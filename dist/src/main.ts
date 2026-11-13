@@ -1,4 +1,10 @@
-import {frame,onStart,onFixedUpdate,onRender,onSuspend,setFixedRate} from 'starhermit:engine';
+import { localizedDrawOptions as __l10nDrawOptions } from "./l10n/font.js";
+import { withLanguageRender as __l10nRender } from "./l10n/menu.js";
+// localization-runtime:attached
+import { localizedFont as __l10nFont } from "./l10n/font.js";
+// display-localization:attached
+import { localizedText as __displayText } from "./l10n/text.js";
+import {frame,onStart,onFixedUpdate,onRender,onSuspend,setFixedRate,strings} from 'starhermit:engine';
 import * as input from 'starhermit:input';
 import * as draw from 'starhermit:draw';
 import {createImageBitmap} from 'starhermit:canvas';
@@ -30,13 +36,15 @@ function save(){const data=snapshot(g);storage.setJson('progress',data);saved=re
 function sfx(name:string,gain=.35,pitch=1){if(!mute&&clips[name])play(clips[name]!,{gain,pitch,bus:'effects'});}
 function startMusic(){if(!music&&clips.music&&!mute)music=play(clips.music,{loop:true,gain:.16,bus:'music'});}
 function toggleSound(){mute=!mute;storage.setJson('muted',mute);if(mute){music?.stop();music=null;}else{startMusic();sfx('mote');}}
+function touchLabel(value:string):string{return Array.from(__displayText(value)).slice(0,16).join('');}
 function controls(){input.setTouchControls(mode==='play'?[
   {kind:'button',action:'left',label:'←',anchor:'bottom-left',offset:[55,68],radius:35},
   {kind:'button',action:'right',label:'→',anchor:'bottom-left',offset:[137,68],radius:35},
-  {kind:'button',action:'cry',label:'CRY',anchor:'bottom-right',offset:[148,68],radius:33},
-  {kind:'button',action:'jump',label:'JUMP',anchor:'bottom-right',offset:[55,105],radius:42},
-  {kind:'button',action:'interact',label:'USE',anchor:'bottom-right',offset:[56,31],radius:25}
+  {kind:'button',action:'cry',label:touchLabel('CRY'),anchor:'bottom-right',offset:[148,68],radius:33},
+  {kind:'button',action:'jump',label:touchLabel('JUMP'),anchor:'bottom-right',offset:[55,105],radius:42},
+  {kind:'button',action:'interact',label:touchLabel('USE'),anchor:'bottom-right',offset:[56,31],radius:25}
 ]:null);}
+strings.onChange(controls);
 function setMode(m:Mode){mode=m;controls();input.setCursor('default');}
 function start(resume=false){
   heroMotion=createMotion();
@@ -493,7 +501,7 @@ function world(alpha:number){
   for(const m of c.memories){if(Math.abs(g.x-m.x)<185&&toastTime===0){
     const captionY=g.boss.active?148:110;
     rect(W/2-290,captionY-7,580,64,'#e7dfc9eb');
-    draw.text(m.text,(W/2)*S,captionY*S,{size:16*S,color:C.ink,font:'Body',align:'center',maxWidth:540*S});
+    draw.text(__displayText(m.text),(W/2)*S,captionY*S,__l10nDrawOptions({size:16*S,color:C.ink,font:__l10nFont('Body'),align:'center',maxWidth:540*S}));
   }}
   const blink=g.invincible>0&&Math.floor(clock*12)%2===0;
   if(!blink)baby(px-camera,ground-py,.88,heroMotion.time,Math.min(1,Math.abs(g.vx)/285),input.isDown('jump')&&g.vy<0&&!g.ground,g.facing,false,motionPose(heroMotion));
@@ -541,7 +549,7 @@ function showToast(){
  if(toastTime<=0)return;
  const tw=Math.min(W-80,690),ty=g.boss.active?148:110;
  rect((W-tw)/2+3,ty+3,tw,55,'#07131e60');rect((W-tw)/2,ty,tw,55,'#f5e8cedf');rect((W-tw)/2,ty,3,55,C.red);
- draw.text(toast,W/2*S,(ty+13)*S,{size:14*S,color:C.ink,font:'Body',align:'center',maxWidth:(tw-40)*S});
+ draw.text(__displayText(toast),W/2*S,(ty+13)*S,__l10nDrawOptions({size:14*S,color:C.ink,font:__l10nFont('Body'),align:'center',maxWidth:(tw-40)*S}));
 }
 
 function morningHud(){
@@ -600,7 +608,7 @@ function modal(){
     const person=g.chapter===3?AFTERWORD.citizens[g.afterword.speaker]!:DETAILS[g.chapter]!.citizen,{y}=panel(person.name,person.role);
     citizenPortrait(W/2,y+280,1.2,person.id,true);
     const lines=dialogueLines();
-    draw.text(lines[dialoguePage]!,W/2*S,(y+303)*S,{size:18*S,color:C.ink,font:'Body',align:'center',maxWidth:570*S});
+    draw.text(__displayText(lines[dialoguePage]!),W/2*S,(y+303)*S,__l10nDrawOptions({size:18*S,color:C.ink,font:__l10nFont('Body'),align:'center',maxWidth:570*S}));
     text((g.chapter===3?'CONVERSATION ':'TESTIMONY ')+(dialoguePage+1)+' / '+lines.length,W/2,y+422,9,C.red,'Mono','center',1);
     button(dialoguePage===lines.length-1?'KEEP THESE WORDS  →':'E  LISTEN  →',W/2-175,y+452,350,46,advanceDialogue,true,true);
   }
@@ -635,8 +643,8 @@ function journal(){
     text(found?'✓':'?',50+listW-20,yy+17,13,selectedMemory===p.id?C.cream:C.sage,'Mono','end');
   }
   const chosen=detail.scraps.find(p=>p.id===selectedMemory),known=chosen&&g.memories.includes(chosen.id),testimony=selectedMemory===-2&&g.talked.includes(person.id);
-  draw.text(testimony?person.name:known?chosen!.title:selectedMemory<0?'A city is made of people.':'A page is still missing.',readX*S,readY*S,{size:25*S,color:C.ink,font:'Display',maxWidth:readW*S});
-  if(!mobile||reading||H>=1050)draw.text(testimony?person.lines[journalPage]!:known?chosen!.body:selectedMemory<0?'Follow the folded cranes on the upper routes. Each recovered memory restores one life and keeps a small human story from being erased.':'Look above the ordinary route. A rising draft, an airborne cry, or a newly possible bridge can take you into the margins.',readX*S,(readY+76)*S,{size:18*S,color:C.muted,font:'Body',maxWidth:readW*S});
+  draw.text(__displayText(testimony?person.name:known?chosen!.title:selectedMemory<0?'A city is made of people.':'A page is still missing.'),readX*S,readY*S,__l10nDrawOptions({size:25*S,color:C.ink,font:__l10nFont('Display'),maxWidth:readW*S}));
+  if(!mobile||reading||H>=1050)draw.text(__displayText(testimony?person.lines[journalPage]!:known?chosen!.body:selectedMemory<0?'Follow the folded cranes on the upper routes. Each recovered memory restores one life and keeps a small human story from being erased.':'Look above the ordinary route. A rising draft, an airborne cry, or a newly possible bridge can take you into the margins.'),readX*S,(readY+76)*S,__l10nDrawOptions({size:18*S,color:C.muted,font:__l10nFont('Body'),maxWidth:readW*S}));
   if(testimony)button('NEXT PAGE  '+(journalPage+1)+' / '+person.lines.length,readX,readY+220,220,33,()=>{journalPage=(journalPage+1)%person.lines.length;},false,true);
   if(reading)button('← MEMORIES',W-218,readY+220,160,33,()=>{selectedMemory=-1;},false,true);
   text(g.echoes.includes(journalChapter)?'ERRATA CORRECTED · SHORTCUT OPEN':'ERRATA: TWO CHIMES / ONE FADING NOTE',50,mobile?H-247:520,10,g.echoes.includes(journalChapter)?C.sage:C.muted,'Mono');
@@ -655,7 +663,7 @@ function morningJournal(){
   paper();text('THE AFTERWORD',50,98,12,C.sage,'Mono','start',2);text('A city to wake.',50,135,W<900?48:58,C.ink,'Display');
   text(g.afterword.restored.length+' / 4 RESTORATIONS  ·  '+g.afterword.heard.length+' / 3 MORNING CONVERSATIONS',50,209,W<900?10:12,C.sage,'Mono');
   const jobs=[['THE NURSERY','Find the key on the old roof and return to Mara’s door.'],['THE WATERWHEEL','Open the housing and sing three notes when the marked vane turns green.'],['THE GARDEN','Collect three seed packets from the watered greenhouse and plant the three beds.'],['THE FIRST LETTER','Choose the words with Ada, then carry the letter to the high postbox.']];
-  for(let i=0;i<4;i++){const y=263+i*91,done=g.afterword.restored.includes(i);text((done?'✓  ':'○  ')+jobs[i]![0],50,y,20,done?C.sage:C.ink,'Display');draw.text(jobs[i]![1]!,50*S,(y+34)*S,{size:16*S,color:C.muted,font:'Body',maxWidth:(W-110)*S});line(50,y+74,W-50,y+74,'#b4af9c55');}
+  for(let i=0;i<4;i++){const y=263+i*91,done=g.afterword.restored.includes(i);text((done?'✓  ':'○  ')+jobs[i]![0],50,y,20,done?C.sage:C.ink,'Display');draw.text(__displayText(jobs[i]![1]!),50*S,(y+34)*S,__l10nDrawOptions({size:16*S,color:C.muted,font:__l10nFont('Body'),maxWidth:(W-110)*S}));line(50,y+74,W-50,y+74,'#b4af9c55');}
   button('READ THE STORY ARCHIVE',50,H-153,350,40,()=>{journalChapter=0;selectedMemory=-1;},false,true);
   button('←  BACK TO THE CITY',50,H-85,310,50,()=>setMode(back),true);
 }
@@ -679,7 +687,7 @@ function workshop(){
     const x=50+col*(cw+30),y=(mobile?308:273)+row*(cardHeight+22);
     rect(x,y,cw,cardHeight,C.cream);stroke(x,y,cw,cardHeight,owned?C.sage:C.faint,1);
     text(u.name,x+20,y+17,mobile?23:25,C.ink,'Display');
-    draw.text(u.description,(x+20)*S,(y+57)*S,{size:(mobile?14:15)*S,color:C.muted,font:'Body',maxWidth:(cw-195)*S});
+    draw.text(__displayText(u.description),(x+20)*S,(y+57)*S,__l10nDrawOptions({size:(mobile?14:15)*S,color:C.muted,font:__l10nFont('Body'),maxWidth:(cw-195)*S}));
     button(owned?'WRITTEN':String(u.cost)+' INK',x+cw-155,y+65,135,43,()=>purchase(u.id),!owned&&availableInk(g)>=u.cost,true);
     text(owned?'KEPT FOR THIS EDITION':u.label,x+20,y+cardHeight-25,9,owned?C.sage:C.muted,'Mono');
   }
@@ -695,7 +703,7 @@ function howTo(){
   line(x,223,right,223,C.ink,1.5);
   if(guidePage){
     const notes=[['RUMOUR MOTHS','They notice a long flight before they pursue it. Land to break their interest, or cry while their paper wings are still within reach.'],['REDACTION SENTRIES','A red aiming line comes before the ink. Jump over the word NO, or cry near it to send IF back to the machine that fired it.'],['THE MARGIN CHIMES','Edit the district’s rule, then cry close to each of its two chimes within 6.5 seconds. The second note unfolds a shortcut and awards 150 ink.']];
-    for(let i=0;i<notes.length;i++){const n=notes[i]!,y=252+i*119;text(n[0]!,x,y,22,C.ink,'Display');draw.text(n[1]!,x*S,(y+38)*S,{size:(W<900?16:18)*S,color:C.muted,font:'Body',maxWidth:(right-x)*S});}
+    for(let i=0;i<notes.length;i++){const n=notes[i]!,y=252+i*119;text(n[0]!,x,y,22,C.ink,'Display');draw.text(__displayText(n[1]!),x*S,(y+38)*S,__l10nDrawOptions({size:(W<900?16:18)*S,color:C.muted,font:__l10nFont('Body'),maxWidth:(right-x)*S}));}
     text('B opens marginalia. Spend ink to shape this edition’s abilities.',x,655,W<900?11:13,C.red,'Mono');
     button('←  BACK TO THE STORY',x,Math.max(710,H-100),310,52,()=>setMode(back),true);return;
   }
@@ -726,7 +734,7 @@ function archive(){
     'Its world is fiction. The clipping’s social and biological claims are the bad assumptions our little editor is here to undo.'
   ];
   let yy=370;
-  for(const p of paras){draw.text(p,tx*S,yy*S,{size:(mobile?16:19)*S,color:C.muted,font:'Body',maxWidth:(W-tx-55)*S});yy+=mobile?133:113;}
+  for(const p of paras){draw.text(__displayText(p),tx*S,yy*S,__l10nDrawOptions({size:(mobile?16:19)*S,color:C.muted,font:__l10nFont('Body'),maxWidth:(W-tx-55)*S}));yy+=mobile?133:113;}
   text('REFERENCE: THE IMAGE YOU SUPPLIED',45,260+ih+25,10,C.muted,'Mono','start',.5);
   button('←  BACK TO THE STORY',45,Math.max(710,H-100),310,52,()=>setMode(back),true);
 }
@@ -749,7 +757,7 @@ function ending(){
   button('WALK THE CITY  →',W/2-200,H-105,400,49,()=>{g.result=null;setMode('play');save();},true);
   link('Print a new edition',W/2-90,H-36,220,()=>start(false));
 }
-onRender(alpha=>{
+onRender(__l10nRender(alpha=>{
   if(!ready)return;
   const f=frame();if(f.width===0||f.height===0)return;viewport(f.width,f.height);hits=[];
   if(mode==='title')title();
@@ -764,4 +772,8 @@ onRender(alpha=>{
   const p=input.pointer();let hover=false;
   if(p)hover=hits.some(h=>p.x/S>=h.x&&p.x/S<=h.x+h.w&&p.y/S>=h.y&&p.y/S<=h.y+h.h);
   input.setCursor(hover?'pointer':'default');
-});
+}));
+
+// localization-runtime:menu
+import { installLanguageMenu as __installLanguageMenu } from "./l10n/menu.js";
+__installLanguageMenu(true);

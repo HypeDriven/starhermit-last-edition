@@ -37,6 +37,54 @@
       "size": 22972,
       "sha256": "b6bcfde5837ad70cb589f34b89708be803aaf5ad4e336be0a575e31a6890c7b6"
     },
+    "assets/localization/CJK-OFL.txt": {
+      "size": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    "assets/localization/Japanese.otf": {
+      "size": 401224,
+      "sha256": "6f64995e4502b2cfefd29c63a0c711156a8f832276648e133011ba478dd7853b"
+    },
+    "assets/localization/Khmer-OFL.txt": {
+      "size": 4381,
+      "sha256": "be0407f060aea48787ff9e75d8d3aedef70aef113b3ce9aca26fdaacd10b1870"
+    },
+    "assets/localization/Khmer.ttf": {
+      "size": 66464,
+      "sha256": "8d987050472f04dfd6dd1c245a37e01d79706802f3a4de3fa9176aed57fde731"
+    },
+    "assets/localization/SimplifiedChinese.otf": {
+      "size": 364584,
+      "sha256": "f1ad2117b958bfaa98d1bdd20a2ad2bc17219bde5830540d07d4386d0f4e1bd6"
+    },
+    "assets/localization/Tamil-OFL.txt": {
+      "size": 4381,
+      "sha256": "f8ff8ce7d0a81bf8d5e121c635ef027250c531f2fd37d5988b8dd6e45f19d7f1"
+    },
+    "assets/localization/Tamil.ttf": {
+      "size": 42280,
+      "sha256": "9f082e7808fa669a17421f0209ca78c5583a02b581355c579f982dec85446daf"
+    },
+    "assets/localization/TraditionalChinese.otf": {
+      "size": 525612,
+      "sha256": "7b5012d1710e58349ca63f9b06bebff1f9584ba205f7df5956a5ed53d56442d3"
+    },
+    "assets/localization/common.json": {
+      "size": 69321,
+      "sha256": "f546fa5899d7dacf1ceedb0c0d2f7ebcccfbc1efc8dcbc619c2900d33c6f5b13"
+    },
+    "assets/localization/fonts.json": {
+      "size": 517,
+      "sha256": "37beaea0dba54c9f2c45995cbf9fd19fad21719d701718c41d7e58dd7748ca13"
+    },
+    "assets/localization/locales.json": {
+      "size": 1462,
+      "sha256": "cc8fadfd5931f1495bacd1ac660e2e54464d01cc795c7e2893c4a06def3abcc3"
+    },
+    "assets/localization/messages.json": {
+      "size": 31623,
+      "sha256": "de45bc47a25b727c711fa7ffde58514e30ebef815a9195d0bd3d49f34dcd56c8"
+    },
     "assets/mono.ttf": {
       "size": 343140,
       "sha256": "c805f9436dbc268644c1d9584f01a601a653e028e08fd74b9b949f6cf8304d88"
@@ -109,6 +157,10 @@
       "size": 2221800,
       "sha256": "913fad4c935e33b0a4860030d1f607d1d074aa5ce442e0b5cd6a7fc454f445e6"
     },
+    "assets/strings.json": {
+      "size": 1652837,
+      "sha256": "a1cd97576176bd5cc4399d1a36b871f633459659fc31e4996edf8f5bc8dcfd32"
+    },
     "cover.jpg": {
       "size": 385983,
       "sha256": "8514289ed76b5672419c47a25499645929a846fa4090f17c392c7e204c40b93b"
@@ -123,7 +175,7 @@
     },
     "index.html": {
       "size": 2200,
-      "sha256": "6a2ac7ec3e01c656023e58f53bea4e4dadf1fe5f0521629e6bff9fe12fa95b48"
+      "sha256": "ddf9cbaa1d0c97d0e2b6633a26d35f91e81a3b9f7e19a71f49721a357e95a038"
     },
     "src/afterword.js": {
       "size": 8619,
@@ -134,16 +186,36 @@
       "sha256": "f38287083cfe4d43ff11f41f37bf40816f72e130cae7bf752c940affa85ea50c"
     },
     "src/art.ts": {
-      "size": 12101,
-      "sha256": "15dd2aac0124fcbbb415ceb473945efa7c0bbc8a6bfb3fb4a4da67f517a6036e"
+      "size": 12422,
+      "sha256": "130e5878fab013329d6785a002428593806806a221f07c9b202514856a8ee436"
     },
     "src/details.js": {
       "size": 4653,
       "sha256": "2483ef986c3fb51f40094f563317228356e71215589f311cba38556a31ef3cb6"
     },
+    "src/l10n/font.ts": {
+      "size": 6298,
+      "sha256": "7f1628951943bd20cc3afa3ead0ad5ef2b5d9415683a7bd74953a40cbf5fd142"
+    },
+    "src/l10n/menu.ts": {
+      "size": 6317,
+      "sha256": "171e533d03753e0a0194559a1e96a4b91d8fe2d68d690825e4565f6d39d469ca"
+    },
+    "src/l10n/text-core.d.ts": {
+      "size": 493,
+      "sha256": "2aeca7cfe13545bda09e41d75b333672e5dd0296219afbab73673021b9783a72"
+    },
+    "src/l10n/text-core.js": {
+      "size": 6015,
+      "sha256": "503c33926ff106669f78859ecbc9e02a7dc3e7fc9584dccc5b29007e65d11166"
+    },
+    "src/l10n/text.ts": {
+      "size": 717,
+      "sha256": "22fbf223af9a8a5712cdd34677bd11c046f14589f34aa9840844f5db25e2e6f8"
+    },
     "src/main.ts": {
-      "size": 61628,
-      "sha256": "7e62098c0f20f7497ae2d8e28914e41c4b56ef1d2a772867200a0a4805abec2f"
+      "size": 62708,
+      "sha256": "53694866ff5dca191b81303432bc37061b4aa74ab83917691884f94f5baed50f"
     },
     "src/margins.js": {
       "size": 5821,
@@ -154,8 +226,8 @@
       "sha256": "1e7bc3f942d388e54243f5e83eaacd9e8e3fef3701beb8956bd5be107908684f"
     },
     "starhermit.txt": {
-      "size": 1074,
-      "sha256": "f67476cb503030185e2c19d79650d6e02e2a52c1fafecc2f25f738f6bf93b9b6"
+      "size": 1220,
+      "sha256": "9d06b3ca9bc50681244b4d4e4f5c7dfee35296562f10938793a391f1b92857a2"
     }
   }
 }
